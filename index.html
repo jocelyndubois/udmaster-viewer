@@ -47,6 +47,7 @@
                 <th>UD6</th>
                 <th>UD7</th>
                 <th>UD8</th>
+                <th>card</th>
             </tr>
             </thead>
             <tbody id="leaderboard-body"></tbody>
@@ -121,6 +122,13 @@
                     let textGame = document.createTextNode(score);
                     cellGame.appendChild(textGame);
                 }
+
+                let card = row.insertCell();
+                let cardLink = document.createElement('a');
+                cardLink.href = 'card.html?runner=' + runner.pseudo;
+                let cardLinkText = document.createTextNode('ici');
+                cardLink.appendChild(cardLinkText);
+                card.appendChild(cardLink);
             }
         }
     }

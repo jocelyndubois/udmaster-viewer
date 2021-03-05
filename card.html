@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
+
+    <meta charset="UTF-8"/>
+    <title>UDMasters - Card</title>
+    <link rel="stylesheet" href="https://old.ultimedecathlon.com/css/7e01955.css?v=20171201" type="text/css"
+          media="all"/>
+    <link rel="stylesheet"
+          href="https://old.ultimedecathlon.com/bundles/udsite/generated-sources/css/ud2.css?v=20171201"/>
+    <link rel="stylesheet"
+          href="https://old.ultimedecathlon.com/bundles/udsite/glyphes/ud-global/css/ud-global.css?v=20171201"
+          type="text/css" media="all"/>
+
+    <link rel="stylesheet"
+          href="https://old.ultimedecathlon.com/bundles/udsite/glyphes/ud-global/css/ud-global.css?v=20171201"
+          type="text/css" media="all"/>
+    <style type="text/css">
+        .hidden {
+            display: none;
+        }
+        .jge:nth-child(1) .logo-jge {
+            background-color: #01cfff;
+        }
+
+        .jge:nth-child(2) .logo-jge {
+            background-color: #b24349;
+        }
+
+        .jge:nth-child(3) .logo-jge {
+            background-color: #966113;
+        }
+
+        .jge:nth-child(4) .logo-jge {
+            background-color: #69b012;
+        }
+
+        .jge:nth-child(5) .logo-jge {
+            background-color: #ff7900;
+        }
+
+        .jge:nth-child(6) .logo-jge {
+            background-color: #8a2fa6;
+        }
+
+        .jge:nth-child(7) .logo-jge {
+            background-color: #bd66c4;
+        }
+
+        .jge:nth-child(8) .logo-jge {
+            background-color: #1b35a3;
+        }
+
+        .jge:nth-child(9) .logo-jge {
+            background-color: #960001;
+        }
+
+        .jge:nth-child(10) .logo-jge {
+            background-color: #11896e;
+        }
+    </style>
+    <link rel="icon" type="image/png" href="https://old.ultimedecathlon.com/favicon.png?v=20171201"/>
+</head>
+
+<body class="card season-2-wrapper">
+<div class="prf">
+    <div class="prf-hd">
+        <div class="rg-prf-hd">
+            <img class="avatar" id="avatar" src="#"
+                 alt="avatar"/>
+            <div class="prf-hd-fst">
+                <div class="prf-nm-st">
+                    <h2 id="pseudo" class="pseudo"></h2>
+
+                </div><!-- .prf-nm-st -->
+                <div class="prf-rk">
+                    <span class="global-rk">Rang : -</span>
+                    <span class="global-sc">Score : <span id="score-total"></span></span>
+                </div><!-- .prf-rk -->
+                <p class="fun-name">-</p>
+            </div><!-- prf-hd-fst -->
+            <div class="clear"></div>
+            <img class="ud-logo"
+                 src="https://old.ultimedecathlon.com/bundles/udsite/images/s2/logo-ud-light.png?v=20171201" alt=""/>
+        </div><!-- .lf-prf-hd -->
+    </div><!-- .prf-hd -->
+
+    <div class="prf-sc">
+        <div id="jges-bars" class="jges">
+        </div><!-- .jges -->
+
+        <div id="gm-ls" class="gm-ls">
+            <p class="ep ep-1-lead">
+                <span class="ep-nm">UD Masters</span><span class="ep-rk"></span><span
+                    class="ep-rk-pl"></span>
+                <span class="ep-sc"></span><span class="ep-sc-pl"></span>
+            </p>
+        </div><!-- .gm-ls -->
+    </div><!-- .prf-sc -->
+
+    <div class="prf-sn">
+        <div class="social-netw">
+            <i class="social-logo glyph-global-twitch" aria-label="logo twitch"></i>
+            <p class="social-id"><a class="social-link" id="twitch" href=""></a></p>
+        </div><!-- twitch -->
+    </div><!-- .prf-sn -->
+</div><!-- .prf" -->
+
+</div>
+<div class="bg"></div>
+</body>
+</html>
+
+<script>
+    let fullChampionshipInfos = [];
+    let seasonsList = [1, 2, 3, 4, 5, 6, 7, 8];
+    let seasonsColor = {
+        1: '6E0045',
+        2: '967059',
+        3: 'E1A360',
+        4: '8BC5CD',
+        5: '31489B',
+        6: '252525',
+        7: '108030',
+        8: 'FFA700',
+    };
+
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+
+    calcChamp();
+
+    function calcChamp() {
+        seasonsList.forEach(function (season) {
+            getSeasonInfos(season);
+        });
+
+        let runner = getRunnerFromUrl();
+        console.log(runner);
+        if (runner) {
+            generateCard(runner);
+        }
+    }
+
+    function getRunnerFromUrl() {
+        let runnerUrl = urlParams.get('runner');
+        let foundRunner = false;
+        if (runnerUrl) {
+            fullChampionshipInfos.forEach(function (runner) {
+                if (runnerUrl.toUpperCase() == runner.pseudo.toUpperCase() || runnerUrl.toUpperCase() == runner.twitch.toUpperCase()) {
+                    foundRunner = runner;
+                }
+            })
+        }
+
+        return foundRunner;
+    }
+
+    function generateCard(runner) {
+        let jges = document.querySelector("#jges-bars")
+
+        let pseudoDiv = document.querySelector("#pseudo")
+        let pseudoTxt = document.createTextNode(runner.pseudo);
+        pseudoDiv.appendChild(pseudoTxt);
+
+        let scoreTotal = document.querySelector("#score-total")
+        let scoreTotalText = document.createTextNode(runner.scoreTotal);
+        scoreTotal.appendChild(scoreTotalText);
+
+        let avatar = document.querySelector("#avatar")
+        avatar.src = runner.picture;
+
+        let twitch = document.querySelector("#twitch")
+        twitch.href = 'http://twitch.tv/' + runner.twitch;
+        let twitchText = document.createTextNode(runner.twitch);
+        twitch.appendChild(twitchText);
+
+        let gmls = document.querySelector('#gm-ls');
+
+        for (const [season, seasonScore] of Object.entries(runner.seasons)) {
+            //Jauges
+            let jge = document.createElement("div");
+            jge.classList.add('jge');
+            jges.appendChild(jge);
+
+            let score = seasonScore;
+            let height = 0;
+            let top = 0;
+            let jgeBg = document.createElement("span")
+            jgeBg.classList.add('jge-bg');
+            if (score >= 0 && score < 1000) {
+                top = 40;
+                jgeBg.style.height = 'calc(22vw * ' + score + ' / 1000)';
+                jgeBg.style.top = 'calc(22vw - (22vw * ' + score + ' / 1000))';
+            } else if (score >= 1000 && score < 2000) {
+                height = ((score - 1000)/1000) * 22
+                //top = 18 + (1-((score-1000))/1000) * 22;
+                top = 18 + ((1-((score - 1000)/1000)) * 22);
+            } else if (score >= 2000) {
+                height = 23;
+                top = 17;
+
+                let xpts = document.createElement("span")
+                xpts.classList.add('xpts-1');
+                xpts.classList.add('xpts-1-2');
+                xpts.style.borderBottom = 'solid #' + seasonsColor[season] + ' 1vw';
+                jge.appendChild(xpts);
+
+                let xpts2 = document.createElement("span")
+                xpts2.classList.add('xpts-2');
+                jge.appendChild(xpts2);
+
+                let xpts3 = document.createElement("span")
+                xpts3.classList.add('xpts-3');
+                jge.appendChild(xpts3);
+            }
+            jge.appendChild(jgeBg);
+
+            let pts = document.createElement("span")
+            pts.classList.add('pts');
+            pts.style.height = height+'vw';
+            pts.style.top = top+'vw';
+            pts.style.background = "transparent linear-gradient(#" + seasonsColor[season] + ", #000 90%)";
+            jge.appendChild(pts);
+
+            let logo = document.createElement('span');
+            logo.classList.add('logo-jge');
+            logo.classList.add('game-ud-glyph');
+            logo.classList.add('glyph-global-logo');
+            logo.style.backgroundColor = '#000';
+            jge.appendChild(logo);
+
+
+            //Scores
+            let clsmt = document.createElement('a');
+            clsmt.classList.add('gm-item');
+            clsmt.style.color = '#' + seasonsColor[season];
+
+            let clsmtGame = document.createElement('span');
+            clsmtGame.classList.add('gm-nm');
+            let clsmtGameText = document.createTextNode('UD ' + season);
+            clsmtGame.appendChild(clsmtGameText);
+            clsmt.appendChild(clsmtGame);
+
+            let clsmtTime = document.createElement('span');
+            clsmtTime.classList.add('gm-tm-pl');
+            let clsmtTimeText = document.createTextNode('-');
+            clsmtTime.appendChild(clsmtTimeText);
+            clsmt.appendChild(clsmtTime);
+
+            let clsmtScore = document.createElement('span');
+            clsmtScore.classList.add('gm-sc-pl');
+            let clsmtScoreText = document.createTextNode(score);
+            clsmtScore.appendChild(clsmtScoreText);
+            clsmt.appendChild(clsmtScore);
+
+            gmls.appendChild(clsmt);
+
+        // <p class="gm-item" style="color:#ff7900;">
+        //     <span class="gm-nm">Metroid: Zero Mission</span>
+        //     <span class="gm-tm-pl ">00:43:32</span>
+        //     <span class="gm-sc-pl ">191</span>
+        // </p>
+
+        }
+
+        /*let row = tbody.insertRow();
+
+        let rank = '-';
+        if (lastBestScore != runner.scoreTotal) {
+            rank = counter;
+            lastBestScore = runner.scoreTotal;
+        }
+        ++counter;
+
+        let cellRank = row.insertCell();
+        let textRank = document.createTextNode(rank);
+        cellRank.appendChild(textRank);
+
+        let cellRunner = row.insertCell();
+        let textRunner = document.createTextNode(runner.pseudo);
+        cellRunner.appendChild(textRunner);
+
+        let cellScore = row.insertCell();
+        let textScore = document.createTextNode(runner.scoreTotal);
+        cellScore.appendChild(textScore);
+
+        let cellTime = row.insertCell();
+        let textTime = document.createTextNode(new Date(runner.timeTotal * 1000).toISOString().substr(11, 8));
+        cellTime.appendChild(textTime);*/
+
+
+    }
+
+
+    function getSeasonInfos(season) {
+        $.ajax({
+            url: "https://masters.ultimedecathlon.com/graphql",
+            data: {
+                query: 'query seasonChampionship {  ChampionshipResults (season: ' + season + ', groupment: "grind") {    user {      id username      alias avatarFormat    }    timeTotal    scoreTotal  }}'
+            },
+            async: false,
+            context: document.body
+        }).done(function (seasonChampionship) {
+            seasonChampionship.data.ChampionshipResults.forEach(function (row) {
+                let runnerPseudo = row.user.alias ? row.user.alias : row.user.username;
+                if (!fullChampionshipInfos[row.user.id]) {
+                    fullChampionshipInfos[row.user.id] = {
+                        pseudo: runnerPseudo,
+                        twitch: row.user.username,
+                        picture: 'https://masters.ultimedecathlon.com/images/users/avatars/' + row.user.id + '.' + row.user.avatarFormat,
+                        scoreTotal: 0,
+                        timeTotal: 0,
+                        seasons: {
+                            1: 0,
+                            2: 0,
+                            3: 0,
+                            4: 0,
+                            5: 0,
+                            6: 0,
+                            7: 0,
+                            8: 0,
+                        }
+                    };
+                }
+
+                fullChampionshipInfos[row.user.id].scoreTotal += row.scoreTotal;
+                fullChampionshipInfos[row.user.id].timeTotal += row.timeTotal;
+                fullChampionshipInfos[row.user.id].seasons[season] = row.scoreTotal;
+            })
+        });
+    }
+</script>
