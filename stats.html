@@ -87,7 +87,7 @@
             maxScore.push(season.bestScore);
         });
 
-        createChart(document.getElementById('maxScore').getContext('2d'), 'bar', 'Score max', maxScore)
+        createChart(document.getElementById('maxScore').getContext('2d'), 'bar', 'Score max (hors 0)', maxScore)
     }
 
     function buildMinScore() {
@@ -96,7 +96,7 @@
             minScore.push(season.minScore);
         });
 
-        createChart(document.getElementById('minScore').getContext('2d'), 'bar', 'Score max', minScore)
+        createChart(document.getElementById('minScore').getContext('2d'), 'bar', 'Score min (hors 0)', minScore)
     }
 
     function buildRunnersScore() {
